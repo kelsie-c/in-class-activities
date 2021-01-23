@@ -22,8 +22,6 @@ header {
 
 section {
   padding-top: 20px;
-  padding-bottom: 20px; 
-  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -52,8 +50,6 @@ section {
   width: 100%;
   overflow: auto;
   clear: both;
-  padding-top: 20px;
-  padding-bottom: 20px;
   color: #fff;
   background-color: #394549;
 }
@@ -71,16 +67,16 @@ aside {
   float: left;
   width: 33%;
   height: 200px;
-  margin-left: 50px;
+  margin-left: 30px;
   padding-top: 20px;
   padding-bottom: 20px;
   background-color: #a6b747;
+  border: 1px solid #eee;
 }
 
 footer {
   padding: 20px;
-  margin-bottom: 20px;
-  color: #333;
+  clear: both;
   background: #FFA500;
 }
 
