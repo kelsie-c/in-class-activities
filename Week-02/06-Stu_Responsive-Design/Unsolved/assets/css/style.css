@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial;
+  margin: 0;
+}
+
+header {
+  padding: 40px;
+  text-align: center;
+  background: #13293d;
+  color: #fff;
+}
+
+/* 
+What happens when we set the display property to flex? 
+TODO: Write your answer here 
+This defines a flex container that can be modified further with other flex elements.
+*/
+nav {
+  display: flex;
+  background-color: #d8a47f;
+}
+
+nav a {
+  color: #13293d;
+  padding: 14px 20px;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* 
+What is the flex-wrap property? 
+TODO: Write your answer here 
+flex-wrap places items on different lines/rows instead of trying to fit all items on one row.
+*/
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+aside {
+  flex: 1;
+  background-color: #b9c6ae;
+  padding: 80px;
+  text-align: center;
+}
+
+/* 
+What does the flex-shrink property specify?
+What is doing here? 
+TODO: Write your answer here 
+flex-shrink defines the rate at which an item will shrink when the viewport size changes. In this case, the value is 0, so the item will remain the same size.
+*/
+footer {
+  flex-shrink: 0;
+  padding: 20px;
+  text-align: center;
+  background: #13293d;
+  color: #fff;
+}
+
+/* 
+What does the justify-content property do? 
+TODO: Write your answer here 
+justify-content distributes negative space between items. In this case, it aligns items on the same line to the center, pushing equal amounts of negative 
+space to the right and left of the page.
+*/
+.products {
+  flex: 4;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* 
+What is the flex property a shorthand property for?
+What is it doing here? 
+TODO: Write your answer here 
+In the flex property, the numbers that follow are: grow, shrink, basis. 
+Grow defines the rate at which the object size will increase compared to other items in this flex container when the screen size increases.
+Shrink defines the rate at which the object size will decrease compared to other items in this flex container when the screen size decreases.
+Basis refers to the default size of the item before any growing or shrinking.
+In this case, the item will remain the same size when the screen size changes, and it will have a size of 400px.
+*/
+.card {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  padding: 10px;
+  flex: 0 0 400px;
+}
+
+.card header {
+  padding: 20px;
+}
+
+.card p {
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+}
+
+/* 
+What does the flex-direction property define?
+What is it doing here? 
+TODO: Write your answer here 
+The flex direction specifies if items should appear in a row or a column.
+In this case, when the screen reaches a size of 768px or smaller, the navigation bar will change from a row to a column.
+*/
+@media screen and (max-width: 768px) {
+  main,
+  nav {
+    flex-direction: column;
+  }
+}
