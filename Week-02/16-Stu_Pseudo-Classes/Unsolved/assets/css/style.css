@@ -88,6 +88,21 @@ footer {
 }
 
 /* TODO: Add styles to display and hide the resource links */
+.resources .list {
+  display: none;
+}
+
+.resources:hover .list {
+  display: block;
+}
+
+.resources h3 {
+  font-size: 150%;
+}
+
+.list a {
+  color: pink;
+}
 
 @media screen and (max-width: 768px) {
   header, main {

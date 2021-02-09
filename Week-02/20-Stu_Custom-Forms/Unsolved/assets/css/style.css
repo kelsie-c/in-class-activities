@@ -85,7 +85,7 @@ button {
   cursor: pointer;
 }
 
-/* What does this CSS rule do? */
+/* The appearance of the box changes to include the custom arrow image */
 select {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -112,12 +112,12 @@ select:hover, button:hover {
   box-shadow: 0 0 5px #999;
 }
 
-/* What does this pseudo-class mean? */
+/* Changes the border of this element when selected */
 .text-input:focus {
   border-right-width: 5px;
 }
 
-/* What does this pseudo-class mean? */
+/* The border changes to dashes when this element selected */
 .text-input:placeholder-shown {
   border-style: dashed;
 }
@@ -136,13 +136,13 @@ select:hover, button:hover {
   margin-right: 2%;
 }
 
-/* What does this selector do? */
+/* Changes text to gray & italic */
 .checkbox:checked + label {
   color: #999999;
   font-style: italic;
 }
 
-/* What does this selector do? */
+/* When checked, adds a text insert at the end */
 .checkbox:checked + label::after {
   margin-left: 10px;
   font-size: 90%;
