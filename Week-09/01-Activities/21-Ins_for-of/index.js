@@ -1,9 +1,9 @@
 // 1. Using arrays
-const songs = ['Bad Guy', 'Old Town Road', '7 Rings'];
+// const songs = ['Bad Guy', 'Old Town Road', '7 Rings'];
 
-for (const value of songs) {
-  console.log(value);
-}
+// for (const value of songs) {
+//   console.log(value);
+// }
 // Bad Guy
 // Old Town Road
 // 7 Rings
