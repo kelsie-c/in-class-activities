@@ -6,8 +6,10 @@ class Rectangle extends Shape {
     const perimeter = sideA * 2 + sideB * 2;
 
     super(area, perimeter);
-    this.sideA = sideA;
-    this.sideB = sideB;
+
+    // this.sideA = sideA;
+    // this.sideB = sideB;
+
   }
 }
 
