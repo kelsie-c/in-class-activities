@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const inquirer = require('inquirer');
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -10,13 +11,13 @@ const connection = mysql.createConnection({
   user: 'root',
 
   // Be sure to update with your own MySQL password!
-  password: '',
-  database: 'ice_creamDB',
+  password: 'MistyCat2007',
+  database: 'playlistDB',
 });
 
 const readProducts = () => {
   console.log('Selecting all products...\n');
-  connection.query('SELECT * FROM products', (err, res) => {
+  connection.query('SELECT * FROM songs', (err, res) => {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.log(res);
@@ -24,37 +25,86 @@ const readProducts = () => {
   });
 };
 
-const deleteProduct = () => {
-  console.log('Deleting all strawberry icecream...\n');
-  connection.query(
-    'DELETE FROM products WHERE ?',
+const userInput = () => {
+  inquirer.prompt ([
     {
-      flavor: 'strawberry',
+      type: 'confirm',
+      message: 'Would you like to add a new song?',
+      name: 'newSong',
+    }
+  ])
+  .then(({newSong}) => {
+    if (!newSong) {
+      readProducts();
+    } else {
+      inquirer.prompt([
+        {
+          type: 'input',
+          message: 'What is the song title?',
+          name: 'songTitle',
+        },
+        {
+          type: 'input',
+          message: 'What is the artist\'s name?',
+          name: 'artistName',
+        },
+        {
+          type: 'input',
+          message: 'What is the genre?',
+          name: 'songGenre',
+        }
+      ])
+      .then(({songTitle, artistName, songGenre}) => {
+        console.log('Inserting a new song...\n');
+        const query = connection.query(
+          'INSERT INTO songs SET ?',
+          {
+            title: songTitle,
+            artist: artistName,
+            genre: songGenre,
+          },
+          (err, res) => {
+            if (err) throw err;
+            console.log(`${res.affectedRows} songs inserted!\n`);
+            userInput();
+          })
+      });
+    } 
+  })
+}
+  
+
+const deleteProduct = () => {
+  console.log('Deleting all Eric Clapton...\n');
+  connection.query(
+    'DELETE FROM songs WHERE ?',
+    {
+      artist: 'Eric Clapton',
     },
     (err, res) => {
       if (err) throw err;
-      console.log(`${res.affectedRows} products deleted!\n`);
+      console.log(`${res.affectedRows} songs deleted!\n`);
       // Call readProducts AFTER the DELETE completes
-      readProducts();
+      userInput();
     }
   );
 };
 
 const updateProduct = () => {
-  console.log('Updating all Rocky Road quantities...\n');
+  console.log('Updating all Pink Floyd quantities...\n');
   const query = connection.query(
-    'UPDATE products SET ? WHERE ?',
+    'UPDATE songs SET ? WHERE ?',
     [
       {
-        quantity: 100,
+        title: 'Wish You Were Here',
       },
       {
-        flavor: 'Rocky Road',
+        artist: 'Pink Floyd',
       },
     ],
     (err, res) => {
       if (err) throw err;
-      console.log(`${res.affectedRows} products updated!\n`);
+      console.log(`${res.affectedRows} songs updated!\n`);
       // Call deleteProduct AFTER the UPDATE completes
       deleteProduct();
     }
@@ -65,17 +115,17 @@ const updateProduct = () => {
 };
 
 const createProduct = () => {
-  console.log('Inserting a new product...\n');
+  console.log('Inserting a new song...\n');
   const query = connection.query(
-    'INSERT INTO products SET ?',
+    'INSERT INTO songs SET ?',
     {
-      flavor: 'Rocky Road',
-      price: 3.0,
-      quantity: 50,
+      title: 'Life By The Drop',
+      artist: 'Stevie Ray Vaughn',
+      genre: 'Rock',
     },
     (err, res) => {
       if (err) throw err;
-      console.log(`${res.affectedRows} product inserted!\n`);
+      console.log(`${res.affectedRows} songs inserted!\n`);
       // Call updateProduct AFTER the INSERT completes
       updateProduct();
     }
@@ -90,4 +140,4 @@ connection.connect((err) => {
   if (err) throw err;
   console.log(`connected as id ${connection.threadId}\n`);
   createProduct();
-});
+})

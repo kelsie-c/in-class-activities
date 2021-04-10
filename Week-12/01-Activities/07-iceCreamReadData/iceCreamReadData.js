@@ -10,12 +10,12 @@ const connection = mysql.createConnection({
   user: 'root',
 
   // Be sure to update with your own MySQL password!
-  password: '',
-  database: 'ice_creamDB',
+  password: 'MistyCat2007',
+  database: 'playlistDB',
 });
 
 const afterConnection = () => {
-  connection.query('SELECT * FROM products', (err, res) => {
+  connection.query('SELECT * FROM songs', (err, res) => {
     if (err) throw err;
     console.log(res);
     connection.end();
