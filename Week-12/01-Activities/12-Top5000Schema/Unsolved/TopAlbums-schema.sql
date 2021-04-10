@@ -1,0 +1,20 @@
+DROP DATABASE IF EXISTS Top5000SongsDB;
+
+CREATE DATABASE Top5000SongsDB;
+
+USE Top5000SongsDB;
+
+CREATE TABLE topAlbums (
+id INT NOT NULL,
+artist VARCHAR(30),
+album VARCHAR(30),
+releaseYear INTEGER,
+totPOP DECIMAL(5,3),
+usPop DECIMAL(5,3),
+ukPop DECIMAL(5,3),
+euroPop DECIMAL(5,3),
+worldPop DECIMAL(5,3),
+PRIMARY KEY (id)
+)
+
+SELECT * FROM topAlbums
