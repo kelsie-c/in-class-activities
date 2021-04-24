@@ -42,5 +42,10 @@ router.get('/', async (req, res) => {
 });
 
 // TODO: Add a route called `/dish/:num` below
+//get one dish
+router.get('/dish/:num', async (req, res) => {
+  // This method renders the 'dish' template, and uses params to select the correct dish to render in the template, based on the id of the dish.
+  return res.render('dish', dishes[req.params.num - 1]);
+});
 
 module.exports = router;
