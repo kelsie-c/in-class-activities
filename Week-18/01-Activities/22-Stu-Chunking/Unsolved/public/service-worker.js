@@ -7,7 +7,9 @@ const FILES_TO_CACHE = [
   "/assets/css/style.css",
 
   // update to cache multiple bundles
-  "/dist/bundle.js",
+  "/dist/home.bundle.js",
+  "/dist/detail.bundle.js",
+  "/dist/favorites.bundle.js",
 
   "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/materia/bootstrap.css",
   "https://use.fontawesome.com/releases/v5.8.2/css/all.css",

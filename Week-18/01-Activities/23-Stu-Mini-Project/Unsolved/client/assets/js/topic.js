@@ -1,43 +1,16 @@
-function checkForIndexedDb() {
-  window.indexedDB =
-    window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-
-  window.IDBTransaction =
-    window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-  window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-
-  if (!window.indexedDB) {
-    console.log("Your browser doesn't support a stable version of IndexedDB.");
-    return false;
-  }
-  return true;
-}
+import { createElement } from "./domMethods";
+import { useIndexedDb } from "./indexeddb";
+import { loadArticles } from "./api";
 
 function removeSpecialCharsFromString(str) {
   return str.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").replace(/\s/g, "");
 }
 
 // Creates pseudo-unique ids for articles
-function createArticleIds(articles) {
+export function createArticleIds(articles) {
   return articles.map(article => {
     article._id = removeSpecialCharsFromString(article.url)
     return article;
-  });
-}
-
-// Loads articles
-function loadArticles() {
-  const BASE_URL =
-    "https://newsapi.org/v2/everything?sortBy=published&apiKey=e41ee36d9a714a199911b42cb75a4fe3&q=";
-
-  const { query } = getParams();
-  return new Promise((resolve, reject) => {
-    fetch(BASE_URL + query)
-      .then(res => res.json())
-      .then(data => {
-        const articles = createArticleIds(data.articles);
-        resolve(articles);
-      });
   });
 }
 
@@ -209,42 +182,6 @@ function createArticle({
   );
 }
 
-// Helper function for creating elements
-function createElement(type, attributes, ...children) {
-  const element = document.createElement(type);
-
-  if (attributes !== null && typeof attributes === "object") {
-    for (const key in attributes) {
-      if (key.startsWith("on")) {
-        const event = key.substring(2).toLowerCase();
-        const handler = attributes[key];
-
-        element.addEventListener(event, handler);
-      } else {
-        element.setAttribute(key, attributes[key]);
-      }
-    }
-  }
-
-  children.forEach(child => {
-    if (typeof child === "boolean" || child === null || child === undefined) {
-      return;
-    }
-
-    let node;
-
-    if (child instanceof HTMLElement) {
-      node = child;
-    } else {
-      node = document.createTextNode(child);
-    }
-
-    element.appendChild(node);
-  });
-
-  return element;
-}
-
 // Formats and returns date in MMMM/DD/YYYY format
 function formatDate(dateStr) {
   const date = new Date(dateStr);
@@ -259,7 +196,7 @@ function formatDate(dateStr) {
 }
 
 // Returns URL query params as object
-function getParams() {
+export function getParams() {
   return location.search
     .substring(1)
     .split("&")
@@ -269,48 +206,6 @@ function getParams() {
       acc[key] = value;
       return acc;
     }, {});
-}
-
-// Returns a promise that can be used to access a given store in IndexedDb
-function useIndexedDb(databaseName, storeName, method, object) {
-  return new Promise((resolve, reject) => {
-    const request = window.indexedDB.open(databaseName, 1);
-    let db,
-      tx,
-      store;
-
-    request.onupgradeneeded = function(e) {
-      const db = request.result;
-      db.createObjectStore(storeName, { keyPath: "_id" });
-    };
-
-    request.onerror = function(e) {
-      console.log("There was an error");
-    };
-
-    request.onsuccess = function(e) {
-      db = request.result;
-      tx = db.transaction(storeName, "readwrite");
-      store = tx.objectStore(storeName);
-
-      db.onerror = function(e) {
-        console.log("error");
-      };
-      if (method === "put") {
-        store.put(object);
-      } else if (method === "get") {
-        const all = store.getAll();
-        all.onsuccess = function() {
-          resolve(all.result);
-        };
-      } else if (method === "delete") {
-        store.delete(object._id);
-      }
-      tx.oncomplete = function() {
-        db.close();
-      };
-    };
-  });
 }
 
 // Call renderArticles on page load

@@ -1,19 +1,20 @@
 // @TODO Add remove from favorites functionality
+import { checkForIndexedDb, useIndexedDb } from "./indexeddb";
+import { createElement } from "./domMethods";
+// function checkForIndexedDb() {
+//   window.indexedDB =
+//     window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
-function checkForIndexedDb() {
-  window.indexedDB =
-    window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+//   window.IDBTransaction =
+//     window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+//   window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
-  window.IDBTransaction =
-    window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-  window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-
-  if (!window.indexedDB) {
-    console.log("Your browser doesn't support a stable version of IndexedDB.");
-    return false;
-  }
-  return true;
-}
+//   if (!window.indexedDB) {
+//     console.log("Your browser doesn't support a stable version of IndexedDB.");
+//     return false;
+//   }
+//   return true;
+// }
 
 // Clear the article container and insert placeholder articles
 function renderPlaceHolders() {
@@ -184,40 +185,40 @@ function createArticle({
 }
 
 // Helper function for creating elements
-function createElement(type, attributes, ...children) {
-  const element = document.createElement(type);
+// function createElement(type, attributes, ...children) {
+//   const element = document.createElement(type);
 
-  if (typeof attributes === "object") {
-    for (const key in attributes) {
-      if (key.startsWith("on")) {
-        const event = key.substring(2).toLowerCase();
-        const handler = attributes[key];
+//   if (typeof attributes === "object") {
+//     for (const key in attributes) {
+//       if (key.startsWith("on")) {
+//         const event = key.substring(2).toLowerCase();
+//         const handler = attributes[key];
 
-        element.addEventListener(event, handler);
-      } else {
-        element.setAttribute(key, attributes[key]);
-      }
-    }
-  }
+//         element.addEventListener(event, handler);
+//       } else {
+//         element.setAttribute(key, attributes[key]);
+//       }
+//     }
+//   }
 
-  children.forEach(child => {
-    if (typeof child === "boolean" || child === null || child === undefined) {
-      return;
-    }
+//   children.forEach(child => {
+//     if (typeof child === "boolean" || child === null || child === undefined) {
+//       return;
+//     }
 
-    let node;
+//     let node;
 
-    if (child instanceof HTMLElement) {
-      node = child;
-    } else {
-      node = document.createTextNode(child);
-    }
+//     if (child instanceof HTMLElement) {
+//       node = child;
+//     } else {
+//       node = document.createTextNode(child);
+//     }
 
-    element.appendChild(node);
-  });
+//     element.appendChild(node);
+//   });
 
-  return element;
-}
+//   return element;
+// }
 
 // Formats and returns date in MMMM/DD/YYYY format
 function formatDate(dateStr) {
@@ -245,46 +246,46 @@ function getParams() {
     }, {});
 }
 
-function useIndexedDb(databaseName, storeName, method, object) {
-  return new Promise((resolve, reject) => {
-    const request = window.indexedDB.open(databaseName, 1);
-    let db,
-      tx,
-      store;
+// function useIndexedDb(databaseName, storeName, method, object) {
+//   return new Promise((resolve, reject) => {
+//     const request = window.indexedDB.open(databaseName, 1);
+//     let db,
+//       tx,
+//       store;
 
-    request.onupgradeneeded = function(e) {
-      const db = request.result;
-      db.createObjectStore(storeName, { keyPath: "_id" });
-    };
+//     request.onupgradeneeded = function(e) {
+//       const db = request.result;
+//       db.createObjectStore(storeName, { keyPath: "_id" });
+//     };
 
-    request.onerror = function(e) {
-      console.log("There was an error");
-    };
+//     request.onerror = function(e) {
+//       console.log("There was an error");
+//     };
 
-    request.onsuccess = function(e) {
-      db = request.result;
-      tx = db.transaction(storeName, "readwrite");
-      store = tx.objectStore(storeName);
+//     request.onsuccess = function(e) {
+//       db = request.result;
+//       tx = db.transaction(storeName, "readwrite");
+//       store = tx.objectStore(storeName);
 
-      db.onerror = function(e) {
-        console.log("error");
-      };
-      if (method === "put") {
-        store.put(object);
-      } else if (method === "get") {
-        const all = store.getAll();
-        all.onsuccess = function() {
-          resolve(all.result);
-        };
-      } else if (method === "delete") {
-        store.delete(object._id);
-      }
-      tx.oncomplete = function() {
-        db.close();
-      };
-    };
-  });
-}
+//       db.onerror = function(e) {
+//         console.log("error");
+//       };
+//       if (method === "put") {
+//         store.put(object);
+//       } else if (method === "get") {
+//         const all = store.getAll();
+//         all.onsuccess = function() {
+//           resolve(all.result);
+//         };
+//       } else if (method === "delete") {
+//         store.delete(object._id);
+//       }
+//       tx.oncomplete = function() {
+//         db.close();
+//       };
+//     };
+//   });
+// }
 
 function loadPage() {
   if (checkForIndexedDb()) {

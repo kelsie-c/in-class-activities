@@ -49,8 +49,7 @@ function createCards(data) {
   });
 }
 
-function 
-(image) {
+function a(image) {
   const card = createEl("div", "card");
   const imageContainer = createEl("div", "card__image-container");
   const img = createEl("img", "card-img-top card__image--cover");

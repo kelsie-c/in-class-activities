@@ -5,10 +5,14 @@ const config = {
   mode: "development",
 
   // add entry points for JavaScript files for the three pages, home, detail, and favorites.
-  entry: "./public/assets/js/app.js",
+  entry: {
+    home: "./public/assets/js/home.js",
+    detail: "./public/assets/js/detail.js",
+    favorites: "./public/assets/js/favorites.js"
+  },
   output: {
     path: __dirname + "/public/dist",
-    filename: "bundle.js"
+    filename: "[name].bundle.js"
   },
   plugins: [
     new WebpackPwaManifest({
